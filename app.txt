@@ -1,0 +1,23 @@
+import React from 'react';
+import { WebView } from 'react-native-webview';
+import { StatusBar } from 'expo-status-bar';
+import * as Permissions from 'expo-permissions';
+export default function App() {
+const getLocationAsync = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+
+    if (status === 'granted') {
+        console.log('Approved!');
+        return Location.getCurrentPositionAsync({ enableHighAccuracy: false });
+    } else {
+       console.log('Rejected!');
+       throw new Error('Location permission not granted');
+    }
+}
+React.useEffect(async()=>{
+  getLocationAsync()
+},[])
+  return (<><WebView geolocationEnabled={true} source={{ uri: 'https://covidya.vercel.app/' }} /><StatusBar style="auto" /></>);
+
+} 
+
